@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 加载类路径下的属性文件  将数据库相关内容抽取出去  spring也有类似的写法-->
+	<!-- <properties resource="jdbc.properties"></properties> -->
+	
+	<!--Mybatis的拦截器 -->  
+    <!-- <plugins>  
+        <plugin interceptor="com.github.pagehelper.PageHelper">  
+            <property name="dialect" value="mysql" />  
+            该参数默认为false  
+            设置为true时，使用RowBounds分页会进行count查询,也就是是否查询数据总条数  
+            <property name="rowBoundsWithCount" value="true" />  
+        </plugin>  
+    </plugins> -->
+
+    <!-- default 设置一个默认的连接环境信息 -->
+	<!-- <environments default="mysql_developer">
+	   连接环境信息，取一个任意唯一的名字
+		<environment id="mysql_developer">
+			mybatis使用的事务管理方式
+			<transactionManager type="jdbc">
+			</transactionManager>
+			mybatis使用连接池方式获取连接
+			<dataSource type="pooled">
+				配置与数据库交互的4个必要属性
+				<property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql:///mybatis?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"/>
+				<property name="username" value="root"/>
+				<property name="password" value="ab12$%"/>
+			</dataSource>
+		</environment>
+	</environments> -->
+	
+	<!-- 加载映射文件-->
+	<!-- <mappers>
+		<mapper resource="com/mybatis/mapper/BlogMapper.xml"/>
+	</mappers> -->
+	
+
+</configuration>

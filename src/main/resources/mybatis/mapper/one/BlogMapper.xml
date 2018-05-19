@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.equality.springbootdemo2.mapper.one.BlogMapper">
+
+	<resultMap type="com.equality.springbootdemo2.entity.Blog" id="blogMap">
+		<id property="id"  column="id"/>
+		<result property="title" column="title"/>
+		<result property="authorId" column="author_id"/>
+		
+	</resultMap>
+	
+	<select id="findById" parameterType="int" resultMap="blogMap">
+		select * from Blog where id = #{id}
+	</select>
+	
+	<select id="querylist" resultMap="blogMap">
+		select * from Blog order by id
+	</select>
+	
+	<insert id="add" parameterType="com.equality.springbootdemo2.entity.Blog">
+		insert into blog(id,title,author_id) values(#{id},#{title},#{authorId})
+	</insert>
+
+</mapper>
