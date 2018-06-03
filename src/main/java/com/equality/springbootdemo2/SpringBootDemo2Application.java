@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan({"com.equality.springbootdemo2.mapper.one"}) //mybatis包扫描,同时需要在属性文件中配置好对应的xml文件扫描路径
+//@MapperScan({"com.equality.springbootdemo2.mapper.one"}) //mybatis包扫描,同时需要在属性文件中配置好对应的xml文件扫描路径
 public class SpringBootDemo2Application {
 
 	public static void main(String[] args) {
