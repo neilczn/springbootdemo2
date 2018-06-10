@@ -59,6 +59,7 @@ public class BlogServiceImpl implements BlogService {
         logger.info("日志输出 info");
         logger.warn("日志输出 warn");
         logger.error("日志输出 error");
+        //int a = 1/0;
 		return this.blogMapper.findById(id);
 	}
 
