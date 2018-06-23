@@ -35,6 +35,12 @@ public class UserInfoMapperTest {
 		UserInfo userInfo = userInfoMapper.findById(1);
 		System.out.println(userInfo);
 	}
+	
+	@Test
+	public void testFindByName() {
+		UserInfo userInfo = userInfoMapper.findByName("admin");
+		System.out.println(userInfo);
+	}
 
 	@Test
 	public void testQuerylist() {
@@ -52,7 +58,7 @@ public class UserInfoMapperTest {
 	@Transactional(value="twoTransactionManager")//指定具体的名称的DataSourceTransactionManager
     @Rollback
 	public void testAdd() {
-		userInfoMapper.add(new UserInfo(6, "neil.n", "dfalj"));
+		userInfoMapper.add(new UserInfo(9, "9", "dfalj"));
 	}
 
 }

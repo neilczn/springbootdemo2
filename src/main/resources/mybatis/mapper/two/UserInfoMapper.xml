@@ -2,21 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.equality.springbootdemo2.mapper.two.UserInfoMapper">
 
-	<resultMap type="com.equality.springbootdemo2.entity.two.UserInfo" id="userInfoMap">
+	<!-- <resultMap type="com.equality.springbootdemo2.entity.two.UserInfo" id="userInfo">
 		<id property="id"  column="id"/>
 		<result property="name" column="name"/>
 		<result property="password" column="password"/>		
-	</resultMap>
+	</resultMap> -->
 	
-	<select id="findById" parameterType="int" resultMap="userInfoMap">
+	<!-- 注意：由于在配置配置类中设置了别名扫描，所以如下的方法中可以使用resultType 而不用使用resultMap -->
+	<select id="findById" parameterType="int" resultType="userInfo">
 		select * from user_info where id = #{id}
 	</select>
 	
-	<select id="querylist" resultMap="userInfoMap">
+	<select id="findByName" parameterType="String" resultType="userInfo">
+		select * from user_info where name = #{name}
+	</select>
+	
+	<select id="querylist" resultType="userInfo">
 		select * from user_info order by id
 	</select>
 	
-	<insert id="add" parameterType="com.equality.springbootdemo2.entity.two.UserInfo">
+	<!-- 注意：由于使用别名，parameterType可以不适用类的全路径 -->
+	<insert id="add" parameterType="userInfo">
 		insert into user_info(id,name,password) values(#{id},#{name},#{password})
 	</insert>
 

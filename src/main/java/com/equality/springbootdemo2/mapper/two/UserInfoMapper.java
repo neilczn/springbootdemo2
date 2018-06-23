@@ -5,5 +5,6 @@ import com.equality.springbootdemo2.mapper.BaseMapper;
 
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 	
+	public UserInfo findByName(String name);
 
 }

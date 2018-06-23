@@ -35,6 +35,7 @@ public class MybatisConfig2 {
         factoryBean.setDataSource(ds2); // 使用主数据源, 连接主库
         Resource[] resource = new PathMatchingResourcePatternResolver().getResources(MybatisConfig2.MAPPER_LOCATION);
         //factoryBean.setConfigLocation(configLocation);
+        factoryBean.setTypeAliasesPackage("com.equality.springbootdemo2.entity");
         factoryBean.setMapperLocations(resource);
         return factoryBean.getObject();
     }

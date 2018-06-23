@@ -14,6 +14,8 @@ public interface UserInfoService {
 	
 	UserInfo findById(Integer id);
 	
+	UserInfo findByName(String name);
+	
 	PageInfo<UserInfo> querylist(Integer pageNum,Integer pageSize);
 
 }
