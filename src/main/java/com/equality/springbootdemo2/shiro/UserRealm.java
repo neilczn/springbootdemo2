@@ -9,6 +9,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,14 +75,21 @@ public class UserRealm extends AuthorizingRealm {
 		
 		//方式2.
 		//给资源授权
-		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+		SimpleAuthorizationInfo simpleAuthorizationInfo = null;
 		//添加資源的授权字符串
 		Subject subject = SecurityUtils.getSubject();
-		UserInfo userInfo = (UserInfo)subject.getPrincipal();
-		if ("admin".equals(userInfo.getName())) {
-			simpleAuthorizationInfo.addStringPermission("user:add");
-		}	
-		
+		Session session = subject.getSession();
+		simpleAuthorizationInfo  = (SimpleAuthorizationInfo)session.getAttribute("permissions");
+		if (simpleAuthorizationInfo == null) {
+			simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+			UserInfo userInfo = (UserInfo)subject.getPrincipal();
+			if ("admin".equals(userInfo.getName())) {
+				simpleAuthorizationInfo.addStringPermission("user:add");
+				simpleAuthorizationInfo.addStringPermission("user:update");
+			}
+			session.setAttribute("permissions", simpleAuthorizationInfo);
+		}
+				
 		//方式3.到数据库查询当前用户对应的授权字符串
 		//Subject subject = SecurityUtils.getSubject();
 		//UserInfo userInfo = (UserInfo)subject.getPrincipal();

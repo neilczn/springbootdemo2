@@ -3,8 +3,10 @@ package com.equality.springbootdemo2;
 import static org.junit.Assert.*;
 
 import java.awt.print.PrinterJob;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.Provider.Service;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -30,6 +32,50 @@ public class Print {
 
 	@Before
 	public void setUp() throws Exception {
+	}
+	
+	@Test
+	public void test4(){
+		String path = System.getProperty("user.dir")+"\\src\\main\\java";
+		System.out.println(path);
+		File rootFiles = new File(path+"\\com\\equality2\\springbootdemo2");
+		
+		if (!rootFiles.exists()) {
+			System.out.println("创建情况："+rootFiles.mkdirs());
+		}else{
+			System.out.println("存在目录："+rootFiles.getAbsolutePath());
+		}
+		
+	}
+	
+	@Test
+	public void test3() {
+		
+		//取得根目录路径
+		String rootPath = getClass().getResource("/").getFile().toString();
+		System.out.println(rootPath);
+
+		//当前目录路径
+		String currentPath1 = getClass().getResource(".").getFile().toString();
+		System.out.println(currentPath1);
+		
+		//当前目录的上级目录路径
+		String parentPath = getClass().getResource("../").getFile().toString();
+		System.out.println(parentPath);
+		
+		//Javaweb项目获取src目录
+		String path1 = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		System.out.println(path1);
+		
+		//Java项目获取src目录
+		String path2 = Service.class.getClass().getResource("/").getPath();
+		System.out.println(path2);
+		
+		String path = System.getProperty("user.dir")+"\\src";
+		System.out.println(path);
+		
+		String classPath = this.getClass().getClassLoader().getResource("/").getPath();
+		System.out.println(classPath);
 	}
 
 	@Test

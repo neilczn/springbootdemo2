@@ -5,6 +5,10 @@ import java.util.Map;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,17 +51,19 @@ public class ShiroConfig {
 		 * 		role:该资源必须得到角色权限才可以访问
 		 */
 		Map<String,String> filterMap = new LinkedHashMap<String,String>();//LinkedHashMap 保持顺序
-		/*filterMap.put("/user/add", "authc");
-		filterMap.put("/user/update", "authc");*/
-		
+				
 		filterMap.put("/testThymeleaf", "anon");
 		//放行login。html页面
 		filterMap.put("/login", "anon");
 		
+		//允许访问静态资源
+		filterMap.put("/static/**", "anon");
+		
 		//授权过滤器  注意：当前授权被拦截后，shiro会自动跳转到未授权页面
 		filterMap.put("/user/add", "perms[user:add]");//需要在UserRealm doGetAuthorizationInfo 方法中添加資源的授权字符串，否则跳转到未授权页面
-		
-		filterMap.put("/*", "authc");
+		filterMap.put("/user/update", "perms[user:update]");
+						
+		filterMap.put("/**", "authc");
 		//filterMap.put("/user/*", "authc");
 		
 		
@@ -79,8 +85,15 @@ public class ShiroConfig {
 	@Bean(name="securityManager")
 	public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm")UserRealm userRealm){
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		//关联Realm
+		//关联3.Realm
 		securityManager.setRealm(userRealm);
+		
+		//关联6.RedisCacheManager
+		securityManager.setCacheManager(cacheManager());
+		
+		//关联8.
+		securityManager.setSessionManager(sessionManager());
+		
 		return securityManager;
 	}
 	
@@ -93,11 +106,48 @@ public class ShiroConfig {
 	}
 	
 	/**
-	 * 配置ShiroDialect,用于Shiro标签与thymeleaf标签配合使用
+	 * 4.配置ShiroDialect,用于Shiro标签与thymeleaf标签配合使用
 	 */
 	@Bean
 	public ShiroDialect getShiroDialect(){
 		return new ShiroDialect();
+	}
+	
+	/**
+	 * 5
+	 * @return
+	 */
+	public RedisManager redisManager() {
+	    RedisManager redisManager = new RedisManager();
+	    redisManager.setExpire(60);//配置过期时间 单位秒
+	    return redisManager;
+	}
+	
+	/**
+	 * 6
+	 * @return
+	 */
+	public RedisCacheManager cacheManager() {
+	    RedisCacheManager redisCacheManager = new RedisCacheManager();
+	    redisCacheManager.setRedisManager(redisManager());	    
+	    return redisCacheManager;
+	}
+	
+	/**
+	 * 7.RedisSessionDAO shiro sessionDao层的实现 通过redis
+	 */
+	public RedisSessionDAO redisSessionDAO() {
+		RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+		redisSessionDAO.setRedisManager(redisManager());
+		return redisSessionDAO;
+	}
+	/**
+	 * 8.shiro session的管理
+	 */
+	public DefaultWebSessionManager sessionManager() {
+		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		sessionManager.setSessionDAO(redisSessionDAO());
+		return sessionManager;
 	}
 	
 	
