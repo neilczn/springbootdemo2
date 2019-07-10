@@ -23,7 +23,12 @@ public class BlogController {
 	
 	@RequestMapping("/findById")
 	public Blog findById(@RequestParam Integer id){
-		Blog blog = blogService.findById(id);
+		Blog blog;
+		try {
+			blog = blogService.findById(id);
+		} catch (Exception e) {
+			blog = null;
+		}
 		return blog;
 	}
 	

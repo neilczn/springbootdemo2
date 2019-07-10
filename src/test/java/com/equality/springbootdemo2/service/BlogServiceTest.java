@@ -39,17 +39,17 @@ public class BlogServiceTest {
 	}
 
 	@Test
-	public void testFindById() {
+	public void testFindById() throws Exception {
 		Blog blog = blogService.findById(1);
 		System.out.println(blog);
 	}
 	
 	@Test
-	public void testFindById2() {
+	public void testFindById2() throws Exception {
 		//MockHttpServletRequest request = new MockHttpServletRequest();
 		//request.addParameter("id", "10");
 		//request.setAttribute("test", "10");
-		Blog blog = blogService.findById(1);
+		Blog blog = blogService.findById(10000);
 		System.out.println(blog);
 	}
 

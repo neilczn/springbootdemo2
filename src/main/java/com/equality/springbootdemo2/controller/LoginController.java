@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 	
 	/**
-	 * 测试 thymeleaf
+	 * 测试 thymeleaf--添加了restful风格的国际化{lang}，此时对应的增加、编辑路径
 	 * @return
 	 */
-	@RequestMapping("/testThymeleaf")
+	@RequestMapping("/{lang}/testThymeleaf")
 	public String testThymeleaf(Model model){
 		
 		model.addAttribute("name", "test");
@@ -72,7 +72,7 @@ public class LoginController {
 		//未验证
 		if (subject.isAuthenticated()) {
 			System.out.println(subject.getSession().getId()+"," + subject.getSession().getStartTimestamp() +","+subject.getSession().getTimeout());
-			return "redirect:/testThymeleaf";
+			return "redirect:/zh/testThymeleaf";
 		}
 		
 		//2.封装用户数据
@@ -84,7 +84,7 @@ public class LoginController {
 			subject.login(token);
 			System.out.println(subject.getSession().getId()+"," + subject.getSession().getStartTimestamp() +","+subject.getSession().getTimeout());
 			//登录成功
-			return "redirect:/testThymeleaf";
+			return "redirect:/zh/testThymeleaf";
 		} catch (UnknownAccountException e) {
 			//用户名不存在
 			model.addAttribute("msg", "用户名不存在");

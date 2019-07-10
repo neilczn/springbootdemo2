@@ -18,7 +18,7 @@ public interface BlogService {
 
   void add(Blog blog);
   
-  Blog findById(Integer id);
+  Blog findById(Integer id) throws Exception;
   
   PageInfo<Blog> querylist(Integer pageNum,Integer pageSize);
   

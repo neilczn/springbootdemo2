@@ -26,12 +26,15 @@ public class LogAspect {
 	private Logger logger  = LoggerFactory.getLogger(this.getClass());
 
 	//两个..代表所有子目录，最后括号里的两个..代表所有参数
-	@Pointcut("execution(public * com.equality.springbootdemo2.service..*.*(..))")
-	public void logAspect() {}
+	//@Pointcut("execution(public * com.equality.springbootdemo2.service..*.*(..))")
+	@Pointcut("execution(public * com.equality.*.service..*.*(..))")
+	public void logAspect() {
+		System.out.println("logAspect()");
+	}
 	
 	@Before("logAspect()")
 	public void doBefore(JoinPoint joinPoint) throws Throwable{
-		//System.out.println("logAspect:" + joinPoint);
+		System.out.println("logAspect:" + joinPoint);
 	}
 	
 	
@@ -47,8 +50,9 @@ public class LogAspect {
 			e1.printStackTrace();
 		}
 		
-		logger.error("signature:"+ jp.getSignature() + ",args:" + jsonlist + ",exception:" +  e.getMessage());
-        System.out.println("logAspect 例外通知(异常):"+e);
+		logger.error("signature:"+ jp.getSignature() + ",args:" + jsonlist + ",exception message:" 
+		+  e.getMessage() + ",exception cause:" + e.getCause());
+        //System.out.println("logAspect 异常:"+e);
     }
 	
 
